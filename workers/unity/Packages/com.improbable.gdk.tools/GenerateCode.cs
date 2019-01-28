@@ -51,7 +51,7 @@ namespace Improbable.Gdk.Tools
             return !File.Exists(StartupCodegenMarkerFile);
         }
 
-        [MenuItem("SpatialOS/Generate code", false, MenuPriorities.GenerateCodePriority)]
+        [MenuItem("SpatialOS/Generate code %&m", false, MenuPriorities.GenerateCodePriority)]
         private static void GenerateMenu()
         {
             Debug.Log("Generating code...");

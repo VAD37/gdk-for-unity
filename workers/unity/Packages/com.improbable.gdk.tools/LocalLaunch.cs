@@ -265,6 +265,7 @@ namespace Improbable.Gdk.Tools
                 else
                 {
                     Debug.LogError($"Errors occured - {message}");
+                    System.Diagnostics.Process.Start(latestLogFile.FullName);
                 }
 
                 process.Dispose();
