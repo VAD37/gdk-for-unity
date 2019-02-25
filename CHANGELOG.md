@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## `0.1.5` - 2019-02-18
+
+### Changed
+
+- Changed `RedirectedProcess` to have Builder-like API.
+- Upgraded the project to be compatible with `2018.3.5f1`.
+
+### Fixed
+
+- Fixed a bug where launching on Android from the Unity Editor would break if you have spaces in your project path.
+- Fixed a bug where a Unity package with no dependencies field in its `package.json` would cause code generation to throw exceptions.
+- Fixed a bug where protocol logging would crash Linux workers.
+
 ## `0.1.4` - 2019-01-28
 
 ### Added
