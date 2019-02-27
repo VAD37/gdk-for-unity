@@ -5,6 +5,7 @@ using Improbable.PlayerLifecycle;
 using Improbable.Worker.CInterop;
 using Unity.Collections;
 using Unity.Entities;
+using UnityEngine;
 
 namespace Improbable.Gdk.PlayerLifecycle
 {
@@ -48,7 +49,7 @@ namespace Improbable.Gdk.PlayerLifecycle
                     {
                         throw new InvalidOperationException(Errors.PlayerEntityTemplateNotFound);
                     }
-
+                    Debug.Log("Make new player");
                     var playerEntity = PlayerLifecycleConfig.CreatePlayerEntityTemplate(request.CallerWorkerId,
                         request.Payload.Position);
                     createEntitySender.RequestsToSend.Add(WorldCommands.CreateEntity.CreateRequest
