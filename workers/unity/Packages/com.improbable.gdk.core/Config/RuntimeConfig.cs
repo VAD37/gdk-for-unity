@@ -8,7 +8,7 @@ namespace Improbable.Gdk.Core
     /// </summary>
     public static class RuntimeConfigDefaults
     {
-        public const NetworkConnectionType LinkProtocol = NetworkConnectionType.RakNet;
+        public const NetworkConnectionType LinkProtocol = NetworkConnectionType.Kcp;
         public const string LocatorHost = "locator.improbable.io";
         public const string ReceptionistHost = "127.0.0.1";
         public const ushort ReceptionistPort = 7777;

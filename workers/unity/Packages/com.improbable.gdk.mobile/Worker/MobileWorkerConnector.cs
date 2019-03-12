@@ -17,7 +17,7 @@ namespace Improbable.Gdk.Mobile
                 WorkerType = workerType,
                 Network =
                 {
-                    ConnectionType = NetworkConnectionType.RakNet,
+                    ConnectionType = NetworkConnectionType.Kcp,
                     UseExternalIp = true,
                     Kcp = new KcpNetworkParameters
                     {

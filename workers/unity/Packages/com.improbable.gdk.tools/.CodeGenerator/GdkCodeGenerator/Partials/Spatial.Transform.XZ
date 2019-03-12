@@ -1,0 +1,58 @@
+        
+        public static implicit operator float3(XZ value) {return new float3(value.X, 0, value.Z);}
+        public static implicit operator Coordinates(XZ value) {return new Coordinates(value.X, 0, value.Z);}
+        public static implicit operator Vector3(XZ value) {return new Vector3(value.X, 0, value.Z);}
+        
+        public static implicit operator XZ(float3      value) {return new XZ(value.x, value.z);}
+        public static implicit operator XZ(Coordinates value) {return new XZ((float)value.X, (float)value.Z);}
+        public static implicit operator XZ(Vector3     value) {return new XZ(value.x,  value.z);}
+        
+        public static readonly XZ Zero = new XZ(0, 0);
+        
+        public static XZ operator -(XZ v1, XZ v2)
+        {
+            return new XZ(v1.X - v2.X, v1.Z - v2.Z);
+        }
+        
+        public static XZ operator +(XZ a, XZ b)
+        {
+            return new XZ(a.X + b.X,  a.Z + b.Z);
+        }
+        
+        public static XZ operator *(XZ coords, float f)
+        {
+            return new XZ(coords.X * f, coords.Z * f);
+        }
+        
+        public static XZ operator /(XZ coords, float f)
+        {
+            return new XZ(coords.X / f, coords.Z / f);
+        }
+
+        public static bool operator ==(XZ a, XZ b) => a.Equals(b);
+        public static bool operator !=(XZ a, XZ b) => !a.Equals(b);
+        
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+        
+            return obj is XZ other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked { return (X.GetHashCode() * 397) ^ Z.GetHashCode(); }
+        }
+
+        public bool Equals(XZ other)
+        {
+            return X.Equals(other.X) && Z.Equals(other.Z);
+        }
+        
+        public override string ToString()
+        {
+            return "PositionXZ(" + X + ", " + Z + ")";
+        }

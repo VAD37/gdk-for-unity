@@ -96,12 +96,17 @@ namespace Improbable.Gdk.Tools
                             $"The {Application.platform} platform does not support code generation.");
                 }
 
+                var log = ConstructArgs(projectPath, schemaCompilerPath, workerJsonPath);
+                var res = log.Aggregate(
+                    "", // start with empty string to handle empty list case.
+                    (current, next) => current + "\n" + next);
+                Debug.Log("command: " + res);
                 using (new ShowProgressBarScope("Generating code..."))
                 {
                     var exitCode = RedirectedProcess.Command(Common.DotNetBinary)
                         .WithArgs(ConstructArgs(projectPath, schemaCompilerPath, workerJsonPath))
                         .Run();
-
+                
                     if (exitCode != 0)
                     {
                         Debug.LogError("Failed to generate code.");
