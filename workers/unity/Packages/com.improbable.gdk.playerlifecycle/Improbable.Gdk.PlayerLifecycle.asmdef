@@ -5,7 +5,9 @@
         "Improbable.Gdk.Generated",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "CreatePlayer",
+        "Modules.Utilities"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

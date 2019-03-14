@@ -1,4 +1,5 @@
 using System;
+using Game.Scripts.Modules.CreatePlayer.Systems;
 using Improbable.Gdk.Core;
 using Improbable.Gdk.Core.Commands;
 using Improbable.PlayerLifecycle;
@@ -14,6 +15,7 @@ namespace Improbable.Gdk.PlayerLifecycle
     public class HandlePlayerHeartbeatResponseSystem : ComponentSystem
     {
         private ComponentGroup group;
+        private HandleDisconnectToModifyDatabaseSystem _disconnectToModifyDatabaseSystem;
 
         [Inject] private WorkerSystem worker;
 
@@ -35,6 +37,8 @@ namespace Improbable.Gdk.PlayerLifecycle
             };
 
             group = GetComponentGroup(query);
+            _disconnectToModifyDatabaseSystem =
+                Worlds.ServerWorld.GetOrCreateManager<HandleDisconnectToModifyDatabaseSystem>();
         }
 
         protected override void OnUpdate()
@@ -44,7 +48,7 @@ namespace Improbable.Gdk.PlayerLifecycle
             var responsesType =
                 GetArchetypeChunkComponentType<PlayerHeartbeatClient.CommandResponses.PlayerHeartbeat>(true);
             var spatialIdType = GetArchetypeChunkComponentType<SpatialEntityId>(true);
-
+            var positionsType = GetArchetypeChunkComponentType<Position.Component>(true);
             var chunkArray = group.CreateArchetypeChunkArray(Allocator.TempJob);
 
             foreach (var chunk in chunkArray)
@@ -53,7 +57,7 @@ namespace Improbable.Gdk.PlayerLifecycle
                 var responses = chunk.GetNativeArray(responsesType);
                 var deleteRequesters = chunk.GetNativeArray(entityDeleterType);
                 var spatialIds = chunk.GetNativeArray(spatialIdType);
-
+                var positions = chunk.GetNativeArray(positionsType);
                 for (var i = 0; i < responses.Length; i++)
                 {
                     var heartbeatData = heartbeats[i];
@@ -79,6 +83,7 @@ namespace Improbable.Gdk.PlayerLifecycle
                         if (heartbeatData.NumFailedHeartbeats >= PlayerLifecycleConfig.MaxNumFailedPlayerHeartbeats)
                         {
                             var entityId = spatialIds[i].EntityId;
+                            _disconnectToModifyDatabaseSystem.OnPlayerDelete(entityId.Id, positions[i].Coords);
                             deleteRequesters[i].RequestsToSend.Add(WorldCommands.DeleteEntity.CreateRequest
                             (
                                 entityId

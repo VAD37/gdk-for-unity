@@ -51,7 +51,7 @@ namespace Improbable.Gdk.PlayerLifecycle
                     }
 //                    Debug.Log("Make new player");
                     var playerEntity = PlayerLifecycleConfig.CreatePlayerEntityTemplate(request.CallerWorkerId,
-                        request.Payload.Position);
+                        request.Payload.Position, request.Payload.PlayerDatabaseId);
                     createEntitySender.RequestsToSend.Add(WorldCommands.CreateEntity.CreateRequest
                     (
                         playerEntity,

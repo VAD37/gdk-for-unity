@@ -1,3 +1,4 @@
+using System;
 using Improbable.Gdk.Core;
 using Improbable.PlayerLifecycle;
 using Improbable.Worker.CInterop;
@@ -12,6 +13,9 @@ namespace Improbable.Gdk.PlayerLifecycle
     [UpdateInGroup(typeof(SpatialOSUpdateGroup))]
     public class SendCreatePlayerRequestSystem : ComponentSystem
     {
+        public static Improbable.Vector3f vector3FPosition;
+        public static string playerDatabaseId;
+
         private readonly EntityId playerCreatorEntityId = new EntityId(1);
 
         private struct NewEntityData
@@ -60,7 +64,12 @@ namespace Improbable.Gdk.PlayerLifecycle
 
             for (var i = 0; i < sendData.Length; ++i)
             {
-                var request = new CreatePlayerRequestType(new Improbable.Vector3f { X = 0, Y = 0, Z = 0 });
+                if (vector3FPosition == null || String.IsNullOrEmpty(playerDatabaseId))
+                {
+                    return;
+                }
+
+                var request = new CreatePlayerRequestType(vector3FPosition, playerDatabaseId);
                 var createPlayerRequest = PlayerCreator.CreatePlayer.CreateRequest(playerCreatorEntityId, request);
 
                 sendData.RequestSenders[i].RequestsToSend
