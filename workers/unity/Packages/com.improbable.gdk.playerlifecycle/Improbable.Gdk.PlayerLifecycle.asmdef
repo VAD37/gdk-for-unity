@@ -7,7 +7,9 @@
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
         "CreatePlayer",
-        "Modules.Utilities"
+        "Modules.Utilities",
+        "UniRx",
+        "UniRx.Async"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

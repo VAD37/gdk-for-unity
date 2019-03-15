@@ -6,6 +6,8 @@ using Improbable.Worker.CInterop;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
+using UniRx;
+using UniRx.Async;
 
 namespace Improbable.Gdk.PlayerLifecycle
 {
@@ -50,16 +52,19 @@ namespace Improbable.Gdk.PlayerLifecycle
                         throw new InvalidOperationException(Errors.PlayerEntityTemplateNotFound);
                     }
 //                    Debug.Log("Make new player");
-                    var playerEntity = PlayerLifecycleConfig.CreatePlayerEntityTemplate(request.CallerWorkerId,
-                        request.Payload.Position, request.Payload.PlayerDatabaseId);
-                    createEntitySender.RequestsToSend.Add(WorldCommands.CreateEntity.CreateRequest
-                    (
-                        playerEntity,
-                        context: new PlayerCreationRequestContext
-                        {
-                            createPlayerRequest = request
-                        }
-                    ));
+                    /*var playerEntity = */PlayerLifecycleConfig.CreatePlayerEntityTemplate(request.CallerWorkerId,
+                        request.Payload.Position, request.Payload.PlayerDatabaseId).Subscribe(template =>
+                    {
+                        createEntitySender.RequestsToSend.Add(WorldCommands.CreateEntity.CreateRequest
+                        (
+                            template,
+                            context: new PlayerCreationRequestContext
+                            {
+                                createPlayerRequest = request
+                            }
+                        ));
+                    });
+
                 }
             }
 
