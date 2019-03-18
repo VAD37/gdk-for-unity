@@ -1,5 +1,5 @@
 using System;
-using Game.Scripts.Modules.CreatePlayer.Systems;
+using Modules.Animation.Scripts.Modules.CreatePlayer.Systems;
 using Improbable.Gdk.Core;
 using Improbable.Gdk.Core.Commands;
 using Improbable.PlayerLifecycle;

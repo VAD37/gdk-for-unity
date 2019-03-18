@@ -95,5 +95,17 @@ namespace Improbable.Gdk.PlayerLifecycle
                 }
             }
         }
+
+        public void ForceCreatePlayer()
+        {
+            for (var i = 0; i < sendData.Length; ++i)
+            {
+                var request             = new CreatePlayerRequestType(vector3FPosition, playerDatabaseId);
+                var createPlayerRequest = PlayerCreator.CreatePlayer.CreateRequest(playerCreatorEntityId, request);
+                sendData.RequestSenders[i].RequestsToSend
+                        .Add(createPlayerRequest);
+                PostUpdateCommands.RemoveComponent<ShouldRequestPlayerTag>(sendData.Entities[i]);
+            }
+        }
     }
 }
